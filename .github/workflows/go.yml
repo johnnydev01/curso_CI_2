@@ -42,7 +42,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: go build -v main.go
+      run: go build -v -o programa.dockerbuild main.go
 
     - name: Upload artefato para job Docker
       uses: actions/upload-artifact@v4
