@@ -33,11 +33,16 @@ jobs:
         file: ./Dockerfile
         push: true
         tags: devjohnny/go_ci:${{github.ref_name}}
-    
-    #UPLOAD DE ARTEFATOS
-    - name: Upload a Build Artifact
+
+    - name: Renomear artefato dinâmico
+      run: |
+        arquivo=$(find . -name "*.dockerbuild")
+        echo "Arquivo encontrado: $arquivo"
+        mv "$arquivo" curso-ci.dockerbuild
+
+    - name: Upload com nome amigável
       uses: actions/upload-artifact@v4.6.2
       with:
         name: programa
-        path: main
-    
+        path: curso-ci.dockerbuild
+
