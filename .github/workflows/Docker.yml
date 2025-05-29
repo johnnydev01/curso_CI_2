@@ -25,6 +25,12 @@ jobs:
         username: devjohnny
         password: ${{ secrets.DOCKER_HUB_PASSWORD }}
 
+    - name: Sanitize tag name
+      id: sanitize
+      run: |
+        safe_tag=$(echo "${{ github.ref_name }}" | tr '/' '-')
+        echo "SAFE_TAG=$safe_tag" >> $GITHUB_ENV
+
     #BUILD E PUSH DE IMAGENS DOCKER
     - name: Build and push Docker images
       uses: docker/build-push-action@v6.18.0
@@ -32,5 +38,5 @@ jobs:
         context: .
         file: ./Dockerfile
         push: true
-        tags: devjohnny/go_ci:${{github.ref_name}}
+        tags: devjohnny/go_ci:${{ env.SAFE_TAG }}
 
