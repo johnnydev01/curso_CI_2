@@ -2,6 +2,7 @@ package database
 
 import (
 	"log"
+	"fmt"
 	"os"
 	"github.com/guilhermeonrails/api-go-gin/models"
 	"gorm.io/driver/postgres"
@@ -20,7 +21,7 @@ func ConectaComBancoDeDados() {
 	nomeBanco := os.Getenv("DB_NAME")
 	portaBanco := os.Getenv("DB_PORT")
 
-	if endereco == "" || usuario == "" || senha == "" || nomeBanco == "" || porta == "" {
+	if endereco == "" || usuario == "" || senha == "" || nomeBanco == "" || portaBanco == "" {
 		panic("Uma ou mais variáveis de ambiente do banco de dados estão vazias")
 	}
 
