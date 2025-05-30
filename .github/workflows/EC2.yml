@@ -16,14 +16,15 @@ jobs:
     - name: Listar conteúdo do artefato baixado
       run: ls -la
     
-    - name: Deploy to Staging server
-      uses: easingthemes/ssh-deploy@main
+    - name: Copy file via SSH password
+      uses: appleboy/scp-action@v1
       with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
-        REMOTE_USER: ${{ secrets.REMOTE_USER }}
-        TARGET: /home/${{ secrets.REMOTE_USER }}
-        EXCLUDE: "postgres-data"
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "main"
+        target: "/home/${{ secrets.REMOTE_USER }}"
+
 
     - name: Execute remote SSH commands using password
       uses: appleboy/ssh-action@v1
