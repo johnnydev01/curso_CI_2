@@ -1,13 +1,15 @@
-FROM ubuntu:latest
-
-EXPOSE 8000
+FROM golang:1.22
 
 WORKDIR /app
 
-ENV DB_HOST=localhost DB_PORT=5432 
-
-ENV DB_USER=root DB_PASSWORD=root DB_NAME=root 
+COPY go.mod go.sum ./
+RUN go mod download
 
 COPY . .
+
+RUN go build -o main main.go
+
+EXPOSE 8000
+
 
 CMD [ "./main" ]

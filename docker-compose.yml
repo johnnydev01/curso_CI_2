@@ -1,5 +1,6 @@
 version: '3'
 services:
+
   postgres:
     image: "postgres"
     environment:
@@ -20,4 +21,21 @@ services:
       - "54321:80"
     depends_on:
       - postgres
+
+  app:
+    build: .
+    depends_on:
+      - postgres
+    environment:
+      PORT: 8000
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: root
+    ports:
+      - "8000:8000" 
+      
+volumes:
+  postgres-data:      # Ajuste aqui conforme a porta usada pela sua app
 
