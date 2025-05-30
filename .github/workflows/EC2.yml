@@ -14,6 +14,9 @@ jobs:
         name: programa
 
     - uses: actions/checkout@v3
+
+    - name: Listar conteúdo do artefato baixado
+      run: ls -la
     
     - name: Deploy to Staging server
       uses: easingthemes/ssh-deploy@main
