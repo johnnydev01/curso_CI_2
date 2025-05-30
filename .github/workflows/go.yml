@@ -36,16 +36,23 @@ jobs:
       run: docker compose up -d
 
     - name: Test
-      run: go test -v main_test.go 
-      
-  
+      run: go test -v main_test.go
+
+    - name: Verificar binário gerado
+      run: |
+        ls -la
+        file main
+
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: GOOS=linux GOARCH=amd64 go build -o main main.go
+      run: |
+        rm -f main main.exe
+        env GOOS=linux GOARCH=amd64 go build -o main main.go
+
 
     - name: Verificar binário gerado
       run: ls -la
