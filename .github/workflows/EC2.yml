@@ -15,7 +15,10 @@ jobs:
 
     - name: Listar conteúdo do artefato baixado
       run: ls -la
-    
+
+    - name: Mover binário para workspace raiz
+      run: mv main $GITHUB_WORKSPACE/
+
     - name: Copy file via SSH password
       uses: appleboy/scp-action@v1
       with:
@@ -34,6 +37,8 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
         script: | 
+          echo "Verificando arquivos no EC2..."
+          ls -la /home/${{ secrets.REMOTE_USER }}
           rm -f /home/${{ secrets.REMOTE_USER }}/main /home/${{ secrets.REMOTE_USER }}/main.exe
           export DB_HOST=${{ secrets.DB_HOST }} 
           export DB_PASSWORD=${{ secrets.DB_PASSWORD }} 
