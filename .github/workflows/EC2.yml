@@ -16,16 +16,13 @@ jobs:
     - name: Listar conteúdo do artefato baixado
       run: ls -la
 
-    - name: Mover binário para workspace raiz
-      run: mv main $GITHUB_WORKSPACE/
-
     - name: Copy file via SSH password
       uses: appleboy/scp-action@v1
       with:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "main"
+        source: "programa/main"
         target: "/home/${{ secrets.REMOTE_USER }}"
 
 
