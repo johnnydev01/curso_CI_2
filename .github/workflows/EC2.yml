@@ -12,6 +12,7 @@ jobs:
       uses: actions/download-artifact@v4.3.0
       with:
         name: programa
+        path: programa
 
     - name: Listar conteúdo do artefato baixado
       run: ls -l ./programa
@@ -22,7 +23,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "./programa/main"
+        source: "programa/main"
         target: "/home/${{ secrets.REMOTE_USER }}"
 
 
