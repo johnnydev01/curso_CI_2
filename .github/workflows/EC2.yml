@@ -36,7 +36,10 @@ jobs:
         script: | 
           echo "Verificando arquivos no EC2..."
           ls -la /home/${{ secrets.REMOTE_USER }}
-          rm -f /home/${{ secrets.REMOTE_USER }}/main /home/${{ secrets.REMOTE_USER }}/main.exe
+
+          echo "Finalizando processo antigo (se existir)..."
+          pkill -f /home/${{ secrets.REMOTE_USER }}/main || true
+
           export DB_HOST=${{ secrets.DB_HOST }} 
           export DB_PASSWORD=${{ secrets.DB_PASSWORD }} 
           export DB_USER=${{ secrets.DB_USER }} 
@@ -46,3 +49,5 @@ jobs:
           chmod +x /home/${{ secrets.REMOTE_USER }}/main
           nohup /home/${{ secrets.REMOTE_USER }}/main > nohup.out 2> nohup.err < /dev/null &
         
+          echo "Listando após execução:"
+          ls -la /home/${{ secrets.REMOTE_USER }}
