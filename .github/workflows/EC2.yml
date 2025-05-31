@@ -14,7 +14,7 @@ jobs:
         name: programa
 
     - name: Listar conteúdo do artefato baixado
-    - run: ls -la
+      run: ls -la
 
     - name: Copy file via SSH password
       uses: appleboy/scp-action@v1
