@@ -38,7 +38,11 @@ jobs:
           ls -la /home/${{ secrets.REMOTE_USER }}
 
           echo "Finalizando processo antigo (se existir)..."
-          pkill -f /home/${{ secrets.REMOTE_USER }}/main || true
+          if pgrep -f "/home/${{ secrets.REMOTE_USER }}/main" > /dev/null; then
+            pkill -f "/home/${{ secrets.REMOTE_USER }}/main"
+          else
+            echo "Nenhum processo encontrado."
+          fi
 
           export DB_HOST=${{ secrets.DB_HOST }} 
           export DB_PASSWORD=${{ secrets.DB_PASSWORD }} 
