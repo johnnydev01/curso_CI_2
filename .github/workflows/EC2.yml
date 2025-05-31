@@ -12,10 +12,9 @@ jobs:
       uses: actions/download-artifact@v4.3.0
       with:
         name: programa
-        path: programa
 
     - name: Listar conteúdo do artefato baixado
-      run: ls -l ./programa
+    - run: ls -la
 
     - name: Copy file via SSH password
       uses: appleboy/scp-action@v1
@@ -23,7 +22,7 @@ jobs:
         host: ${{ secrets.REMOTE_HOST }}
         username: ${{ secrets.REMOTE_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
-        source: "programa/main"
+        source: "main"
         target: "/home/${{ secrets.REMOTE_USER }}"
 
 
