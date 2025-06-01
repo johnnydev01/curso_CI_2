@@ -37,15 +37,14 @@ jobs:
           echo "Verificando arquivos no EC2..."
           ls -la /home/${{ secrets.REMOTE_USER }}
 
-          export DB_HOST=${{ secrets.DB_HOST }} 
-          export DB_PASSWORD=${{ secrets.DB_PASSWORD }} 
-          export DB_USER=${{ secrets.DB_USER }} 
-          export DB_NAME=${{ secrets.DB_NAME }} 
-          export DB_PORT=${{ secrets.DB_PORT }}
-          export DB_SSLMODE=require 
-          export PORT=8000
-          chmod +x /home/${{ secrets.REMOTE_USER }}/main
-          nohup /home/${{ secrets.REMOTE_USER }}/main > nohup.out 2> nohup.err < /dev/null &
+          env DB_HOST=${{ secrets.DB_HOST }} \
+              DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              DB_USER=${{ secrets.DB_USER }} \
+              DB_NAME=${{ secrets.DB_NAME }} \
+              DB_PORT=${{ secrets.DB_PORT }} \
+              DB_SSLMODE=require \
+              PORT=8000 \
+              nohup /home/${{ secrets.REMOTE_USER }}/main > nohup.out 2> nohup.err < /dev/null &
         
           echo "Listando após execução:"
           ls -la /home/${{ secrets.REMOTE_USER }}
