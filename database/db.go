@@ -20,14 +20,15 @@ func ConectaComBancoDeDados() {
 	senha := os.Getenv("DB_PASSWORD")
 	nomeBanco := os.Getenv("DB_NAME")
 	portaBanco := os.Getenv("DB_PORT")
+	sslMode := os.Getenv("DB_SSLMODE")
 
 	if endereco == "" || usuario == "" || senha == "" || nomeBanco == "" || portaBanco == "" {
 		panic("Uma ou mais variáveis de ambiente do banco de dados estão vazias")
 	}
 
 	stringDeConexao := fmt.Sprintf(
-		"host=%s user=%s password=%s dbname=%s port=%s sslmode=require",
-		endereco, usuario, senha, nomeBanco, portaBanco,
+		"host=%s user=%s password=%s dbname=%s port=%s sslmode=%s",
+		endereco, usuario, senha, nomeBanco, portaBanco, sslMode
 	)
 
 	DB, err = gorm.Open(postgres.Open(stringDeConexao))
