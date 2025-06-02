@@ -2,14 +2,21 @@ name: Go
 
 on:
   push:
-    branches: [ '*' ]
+    branches: [ '**' ]
   pull_request:
-    branches: [ '*' ]
+    branches: [ '**' ]
 
 jobs:
 
   test:
     runs-on: ${{matrix.os}}
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_USER: root
+      DB_PASSWORD: root
+      DB_NAME: root
+      DB_SSLMODE: disable
     strategy:
       matrix:
         go_version: ['1.18', '1.17', '>=1.18']
@@ -30,27 +37,40 @@ jobs:
       run: docker compose up -d
 
     - name: Test
-      run: DB_HOST=${{ secrets.DB_HOST }} DB_PASSWORD=${{ secrets.DB_PASSWORD }} DB_USER=${{ secrets.DB_USER }} DB_NAME=${{ secrets.DB_NAME }} DB_PORT=${{ secrets.DB_PORT }} go test -v main_test.go 
-      
-  
+      run: go test -v main_test.go
+
+    - name: Verificar binário gerado
+      run: |
+        ls -la
+        file main
+
   build:
     needs: test
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: go build -v main.go
+      run: |
+        rm -f main main.exe
+        env GOOS=linux GOARCH=amd64 go build -o main main.go
+
+
+    - name: Verificar binário gerado
+      run: ls -la
       
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v4
       with:
-    # Artifact name
         name: programa
-    # A file, directory or wildcard pattern that describes what to upload
         path: main
 
 
   docker:
     needs: build
     uses: ./.github/workflows/Docker.yml
+    secrets: inherit
+
+  Deploy_EC2:
+    needs: build
+    uses: ./.github/workflows/EC2.yml
     secrets: inherit

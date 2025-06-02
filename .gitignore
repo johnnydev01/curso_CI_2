@@ -1,0 +1,8 @@
+# Ignorar binários gerados
+main
+main.exe
+
+# Ignorar outros arquivos desnecessários
+nohup.out
+nohup.err
+*.log

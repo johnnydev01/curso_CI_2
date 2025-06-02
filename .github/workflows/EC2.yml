@@ -1,0 +1,50 @@
+name: Entrega Continua
+
+on:
+  workflow_call: 
+
+jobs:
+  EC2:
+    runs-on: 'ubuntu-latest'
+    steps:
+     #DOWNLOAD DE ARTEFATOS
+    - name: Download a Build Artifact
+      uses: actions/download-artifact@v4.3.0
+      with:
+        name: programa
+
+    - name: Listar conteúdo do artefato baixado
+      run: ls -la
+
+    - name: Copy file via SSH password
+      uses: appleboy/scp-action@v1
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        source: "main"
+        target: "/home/${{ secrets.REMOTE_USER }}"
+
+
+    - name: Execute remote SSH commands using password
+      uses: appleboy/ssh-action@v1
+      with:
+        host: ${{ secrets.REMOTE_HOST }}
+        username: ${{ secrets.REMOTE_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: | 
+          echo "Verificando arquivos no EC2..."
+          ls -la /home/${{ secrets.REMOTE_USER }}
+
+          env DB_HOST=${{ secrets.DB_HOST }} \
+              DB_PASSWORD=${{ secrets.DB_PASSWORD }} \
+              DB_USER=${{ secrets.DB_USER }} \
+              DB_NAME=${{ secrets.DB_NAME }} \
+              DB_PORT=${{ secrets.DB_PORT }} \
+              DB_SSLMODE=require \
+              PORT=8000 \
+              nohup /home/${{ secrets.REMOTE_USER }}/main > nohup.out 2> nohup.err < /dev/null &
+        
+          echo "Listando após execução:"
+          ls -la /home/${{ secrets.REMOTE_USER }}
