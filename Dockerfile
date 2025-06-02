@@ -9,6 +9,10 @@ COPY . .
 
 RUN go build -o main main.go
 
+RUN chmod +x main
+
+COPY ./templates/ templates/
+
 EXPOSE 8000
 
 
