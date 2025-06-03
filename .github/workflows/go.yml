@@ -79,3 +79,9 @@ jobs:
     needs: docker
     uses: ./.github/workflows/ECS.yml
     secrets: inherit
+  
+  LoadTest:
+    needs: docker
+    if: ${{ github.ref.ref_name == 'rollback-teste-de-carga' }}
+    uses: ./.github/workflows/LoadTest.yml
+    secrets: inherit
