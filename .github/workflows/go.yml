@@ -82,6 +82,6 @@ jobs:
   
   LoadTest:
     needs: docker
-    if: ${{ github.ref.ref_name == 'rollback-teste-de-carga' }}
+    if: ${{ github.ref.ref_name == 'Homolog' }}
     uses: ./.github/workflows/LoadTest.yml
     secrets: inherit
