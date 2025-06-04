@@ -79,7 +79,7 @@ jobs:
     needs: docker
     uses: ./.github/workflows/ECS.yml
     secrets: inherit
-  
+  #Teste de carga Locust-Terraform
   LoadTest:
     needs: docker
     if: ${{ github.ref_name == 'Homolog' }}

@@ -16,7 +16,7 @@ jobs:
         aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         aws-region: us-east-2
 
-    - run: git clone https://github.com/leollo98/Infra_CI
+    - run: git clone https://github.com/johnnydev01/Infra_CI.git
 
     - name: HashiCorp - Setup Terraform
       uses: hashicorp/setup-terraform@v2.0.3
@@ -57,7 +57,7 @@ jobs:
         cat locustfile.py
 
     - name: Roda teste de carga
-      run: sleep 60s ; locust -f locustfile.py --headless -u 10 -r 5 --run-time 60s -H http://${{ steps.URL.outputs.stdout }}
+      run: sleep 60s ; locust -f locustfile.py --headless -u 10 -r 5 --run-time 60s -H http://${{steps.URL.outputs.stdout}}
   
     -  run: terraform -chdir=Infra_CI/env/Homolog destroy -auto-aprove
 
