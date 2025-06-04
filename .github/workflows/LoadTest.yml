@@ -23,9 +23,9 @@ jobs:
 
     -  run: terraform -chdir=Infra_CI/env/Homolog init
 
-    -  run: terraform -chdir=Infra_CI/env/Homolog destroy -auto-aprove
+    -  run: terraform -chdir=Infra_CI/env/Homolog destroy --auto-approve
 
-    -  run: terraform -chdir=Infra_CI/env/Homolog apply -auto-aprove
+    -  run: terraform -chdir=Infra_CI/env/Homolog apply -auto-approve
 
     -  run: echo "$(terraform -chdir=Infra_CI/env/Homolog output -raw IP_alb)"
        id: URL
@@ -59,7 +59,7 @@ jobs:
     - name: Roda teste de carga
       run: sleep 60s ; locust -f locustfile.py --headless -u 10 -r 5 --run-time 60s -H http://${{steps.URL.outputs.stdout}}
   
-    -  run: terraform -chdir=Infra_CI/env/Homolog destroy -auto-aprove
+    -  run: terraform -chdir=Infra_CI/env/Homolog destroy -auto-approve
 
          
 
