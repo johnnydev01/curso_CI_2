@@ -27,7 +27,7 @@ jobs:
 
     - run: terraform -chdir=Infra_CI_Kubernetes/env/Homolog apply -auto-approve
 
-    - run: echo "$(terraform -chdir=Infra_CI_Kubernetes/env/Homolog output -raw IP_db_"
+    - run: echo "$(terraform -chdir=Infra_CI_Kubernetes/env/Homolog output -raw IP_db"
       id: URL
 
 
@@ -39,7 +39,7 @@ jobs:
 
     - run: aws eks update-kubeconfig --region us-west-2 --name homolog2
 
-    - run: kubectl get svc[
+    - run: kubectl get svc
     
     - run: kubectl delete secret dbhost --ignore-not-found
     - run: kubectl create secret generic dbhost --from-literal=HOST=${{ steps.URL.outputs.stdout }}
