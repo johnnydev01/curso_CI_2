@@ -23,8 +23,6 @@ jobs:
 
     - run: terraform -chdir=Infra_CI_Kubernetes/env/Homolog init
 
-    
-    - name: Destroi infraestrutura ao final
     - run: terraform -chdir=Infra_CI_Kubernetes/env/Homolog destroy -auto-approve
     - run: return 1
 
@@ -32,8 +30,6 @@ jobs:
 
     - run: echo "$(terraform -chdir=Infra_CI_Kubernetes/env/Homolog output -raw IP_db)"
       id: URL
-
-
 
     - name: Kubectl tool installer
       uses: Azure/setup-kubectl@v4.0.0
